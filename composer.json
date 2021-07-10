@@ -1,0 +1,15 @@
+{
+    "name": "globalpayments/globalpayments-gateway-provider-for-woocommerce",
+    "description": "This extension allows WooCommerce to use the available Global Payments payment gateways. All card data is tokenized using the respective gateway's tokenization service.",
+    "homepage": "https://github.com/globalpayments/globalpayments-gateway-provider-for-woocommerce",
+    "license": "MIT",
+    "type": "wordpress-plugin",
+    "require": {
+        "globalpayments/php-sdk": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "GlobalPayments\\WooCommercePaymentGatewayProvider\\": "src"
+        }
+    }
+}
