@@ -410,7 +410,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway_Cc {
 			        'description'		=> sprintf(
 			            __( 'This will check AVS/CVN result codes and reverse transaction.' )
 			            ),
-			        'default'			=> 'no'
+			        'default'			=> 'yes'
 			    ),
 			    'avs_reject_conditions'    => array(
 			        'title'       => __( 'AVS Reject Conditions', 'globalpayments-gateway-provider-for-woocommerce' ),
@@ -427,6 +427,10 @@ abstract class AbstractGateway extends WC_Payment_Gateway_Cc {
 			        'css'         => 'width: 450px',
 			        'description' => __( 'Choose for which CVN result codes, the transaction must be auto reveresed.'),
 			        'options'     => $this->cvn_rejection_conditions(),
+					'default'	  => array( // test
+						"N",
+						"P",
+					)
 			    ),			    
 			)
 		);
