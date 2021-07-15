@@ -12,7 +12,6 @@ use GlobalPayments\WooCommercePaymentGatewayProvider\Gateways\Requests\RequestAr
 use WC_Payment_Gateway_CC;
 use WC_Order;
 use GlobalPayments\Api\Entities\Transaction;
-
 use GlobalPayments\WooCommercePaymentGatewayProvider\Plugin;
 
 /**
@@ -419,6 +418,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway_Cc {
 			        'css'         => 'width: 450px',
 			        'description' => __( 'Choose for which AVS result codes, the transaction must be auto reveresed.'),
 			        'options'     => $this->avs_rejection_conditions(),
+					'default'	  => array("N", "S", "U", "P", "R", "G", "C", "I")
 			    ),
 			    'cvn_reject_conditions'    => array(
 			        'title'       => __( 'CVN Reject Conditions', 'globalpayments-gateway-provider-for-woocommerce' ),
@@ -427,10 +427,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway_Cc {
 			        'css'         => 'width: 450px',
 			        'description' => __( 'Choose for which CVN result codes, the transaction must be auto reveresed.'),
 			        'options'     => $this->cvn_rejection_conditions(),
-					'default'	  => array( // test
-						"N",
-						"P",
-					)
+					'default'	  => array("P", "?", "N")
 			    ),			    
 			)
 		);
@@ -910,7 +907,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway_Cc {
 		}
 		
 		//reverse incase of AVS/CVN failure
-		if(!empty($response->transactionReference->transactionId) && !empty($this->check_avs_cvv)){
+		if(!empty($response->transactionReference->transactionId) && $this->get_option('check_avs_cvv') === 'yes'){
 		    if(!empty($response->avsResponseCode) || !empty($response->cvnResponseCode)){
 		        //check admin selected decline condtions
 		        if(in_array($response->avsResponseCode, $this->avs_reject_conditions) ||
